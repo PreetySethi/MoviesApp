@@ -2,7 +2,9 @@
  Angular 10 CRUD App with Bootstrap 4, MongoDB, NodeJS and Express JS from scratch.
 ## How to run the app?
 - Run `npm install` to install required dependencies.
-- set the SET PATH and SET NODE_PATH
+- SET the PATH and NODE_PATH environment Variable 
+    SET PATH=c:\Windows\System32;D:\nodejs 
+    SET NODE_PATH=D:\nodejs\node_modules
 - Run `ng serve` to run the angular app
 - Start the MEAN Stack backend
   - `cd backend` to enter into the backend folder
