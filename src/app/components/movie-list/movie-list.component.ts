@@ -10,12 +10,15 @@ import { ApiService } from '../../service/api.service';
 export class MovieListComponent implements OnInit {
   
   Movie:any = [];
+  socketService: any;
 
   constructor(private apiService: ApiService) { 
     this.readMovie();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.socketService.setupSocketConnection();
+  }
 
   readMovie(){
     this.apiService.getMovies().subscribe((data) => {

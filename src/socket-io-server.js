@@ -3,8 +3,8 @@ var server =require('http').Server(app);
 var io= require('socket.io')(server);
 
 io.on('connection', function (socket){
-    console.log("A user connected");
-    socket.emit('test event','Hii Movie App');
+    console.log("connected to socket");
+    socket.emit('test event','Hello App');
 });
 
 server.listen(3000, () =>{

@@ -16,6 +16,7 @@ export class MovieEditComponent implements OnInit {
   editForm: FormGroup;
   movieData: Movie[];
   MovieProfile: any = ['1 star', '2 star', '3 star', '4 star', '5 star']
+  socketService: any;
 
   constructor(
     public fb: FormBuilder,
@@ -24,16 +25,15 @@ export class MovieEditComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {
+  ngOnInit() {    
     this.updateMovie();
     let id = this.actRoute.snapshot.paramMap.get('id');
     this.getMovie(id);
     this.editForm = this.fb.group({
       name: ['', [Validators.required]],
       
-      rating: ['', [Validators.required]]
-      
-    })
+      rating: ['', [Validators.required]]    
+    })  
   }
 
   // Choose options with select-dropdown

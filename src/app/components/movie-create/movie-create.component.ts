@@ -13,6 +13,7 @@ export class MovieCreateComponent implements OnInit {
   submitted = false;
   movieForm: FormGroup;
   MovieProfile:any = ['1 star', '2 star', '3 star', '4 star', '5 star']
+  socketService: any;
   
   constructor(
     public fb: FormBuilder,
@@ -23,7 +24,9 @@ export class MovieCreateComponent implements OnInit {
     this.mainForm();
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.socketService.setupSocketConnection();
+  }
 
   mainForm() {
     this.movieForm = this.fb.group({
@@ -54,10 +57,12 @@ export class MovieCreateComponent implements OnInit {
       this.apiService.createMovie(this.movieForm.value).subscribe(
         (res) => {
           console.log('Movie successfully created!')
-          this.ngZone.run(() => this.router.navigateByUrl('/movies-list'))
+          this.ngZone.run(() => this.router.navigateByUrl('/movies-list')
+          )
         }, (error) => {
           console.log(error);
         });
+        
     }
   }
 

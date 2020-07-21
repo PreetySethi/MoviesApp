@@ -1,31 +1,28 @@
-import { Injectable } from '@angular/core';
+
 import * as io from 'socket.io-client';
-import { Observable, Subscriber } from 'rxjs';
-import { emit } from 'process';
-import { stringify } from 'querystring';
+
+import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebSocketService {
 
-  socket: any;
-  readonly uri: string="ws://localhost:3000";
+  socket;
+  constructor() {   }
 
-  constructor() {
-    this.socket =io(this.uri);
-   }
-
-  listen(eventName: string){
-    return new Observable((Subscriber) => {
-      this.socket.on(eventName, (data) => {
-        Subscriber.next(data);
-
-      })
+  setupSocketConnection() {
+    this.socket = io(environment.SOCKET_ENDPOINT, {
+      query: {
+        token: 'cde'
+      }
     });
-    }
 
-    emit(eventName: string, data: any){
-      this.socket.emit(eventName, data);
+    this.socket.emit('my message', 'Hello there from Angular.');
+
+    this.socket.on('my broadcast', (data: string) => {
+      console.log(data);
+    });
   }
 }
