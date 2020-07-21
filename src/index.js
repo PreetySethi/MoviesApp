@@ -14,9 +14,8 @@ new_message.click(function(){
 
 //Listen on new_message
 socket.on("new_message", (data) => {
-    feedback.html('');
-    message.val('');
-    chatroom.append("<p class='message'>" + data.name + ": " + data.rating + "</p>")
+  
+    new_message.append("<p class='message'>" + data.name + ": " + data.rating + "</p>")
 })
 
 
