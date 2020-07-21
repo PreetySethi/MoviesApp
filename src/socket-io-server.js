@@ -10,8 +10,5 @@ io.on('connection', function (socket){
 server.listen(3000, () =>{
     console.log("Socket.io server is listening on port 3000")
 });
-socket.on("my message", (msg) => {
-    feedback.html('');
-    message.val('');
-    io.append('my broadcast', `server: ${msg}`+ data.name + ": " + data.rating + "")
-});
+
+

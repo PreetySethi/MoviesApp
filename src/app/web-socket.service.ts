@@ -24,5 +24,10 @@ export class WebSocketService {
     this.socket.on('my broadcast', (data: string) => {
       console.log(data);
     });
+    
+
+    io.on('connection', (socket) => {
+      let token = socket.handshake.query.token;
+    });
   }
 }
