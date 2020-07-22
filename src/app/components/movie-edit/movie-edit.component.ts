@@ -17,6 +17,7 @@ export class MovieEditComponent implements OnInit {
   movieData: Movie[];
   MovieProfile: any = ['1 star', '2 star', '3 star', '4 star', '5 star']
   socketService: any;
+  socket: any;
 
   constructor(
     public fb: FormBuilder,
@@ -44,7 +45,7 @@ export class MovieEditComponent implements OnInit {
   }
 
   // Getter to access form control
-  get myForm() {
+  get myForm() {zz
     return this.editForm.controls;
   }
 
@@ -75,9 +76,13 @@ export class MovieEditComponent implements OnInit {
       if (window.confirm('Are you sure?')) {
         let id = this.actRoute.snapshot.paramMap.get('id');
         this.apiService.updateMovie(id, this.editForm.value)
-          .subscribe(res => {
+          .subscribe(res => { 
             this.router.navigateByUrl('/movies-list');
-            console.log('Content updated successfully!')
+            this.socket.emit('updatedata', res);
+            
+            //console.log('Content updated successfully!');
+           
+           
           }, (error) => {
             console.log(error)
           })

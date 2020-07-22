@@ -26,6 +26,7 @@ export class MovieCreateComponent implements OnInit {
 
   ngOnInit() {
     this.socketService.setupSocketConnection();
+    
   }
 
   mainForm() {

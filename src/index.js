@@ -1,24 +1,6 @@
 const app = require('express')();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
-
-
-var name = $("#name")
-var new_message = $("#new_message")
-var rating = $("#rating")
-
-//Emit message
-new_message.click(function(){
-    socket.emit('new_message', {message : message.val()})
-})
-
-//Listen on new_message
-socket.on("new_message", (data) => {
-  
-    new_message.append("<p class='message'>" + data.name + ": " + data.rating + "</p>")
-})
-
-
 app.get('/', (req, res) => {
   res.send('<h1>Hey Socket.io</h1>');
 });
@@ -28,6 +10,43 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
+  socket.on('my message', (msg) => {
+    console.log('message: ' + msg);
+    io.emit('my broadcast', `server: ${msg}`);
+  });
+});
+
+
+
+
+io.on('connection', socket => {
+  let previousId;
+  const safeJoin = currentId => {
+      socket.leave(previousId);
+      socket.join(currentId, () => console.log(`Socket ${socket.id} joined room ${currentId}`));
+      previousId = currentId;
+  }
+
+  socket.on('getDoc', docId => {
+      safeJoin(docId);
+      socket.emit('document', documents[docId]);
+  });
+
+  socket.on('addDoc', doc => {
+      documents[doc.id] = doc;
+      safeJoin(doc.id);
+      io.emit('documents', Object.keys(documents));
+      socket.emit('document', doc);
+  });
+
+  socket.on('editDoc', doc => {
+      documents[doc.id] = doc;
+      socket.to(doc.id).emit('document', doc);
+  });
+
+  io.emit('documents', Object.keys(documents));
+
+  console.log(`Socket ${socket.id} has connected`);
 });
 
 http.listen(3000, () => {
